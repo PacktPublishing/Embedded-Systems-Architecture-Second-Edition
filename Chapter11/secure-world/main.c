@@ -130,11 +130,14 @@ static void gtzc_init(void)
  *
  */
 
+#define MAX_NS_STACK_SIZE 1024
+
 void main(void) 
 {
     const uint32_t * const app_IV = (const uint32_t *)NS_WORLD_ENTRY_ADDRESS;
     void  *app_entry;
     uint32_t app_end_stack;
+    uint32_t app_stack_limit;
     volatile int i;
     led_setup();
     red_led_on();
@@ -146,9 +149,11 @@ void main(void)
     secure_world_init();
     gtzc_init();
 
-    /* Read stack pointer, entry point before securing flash area */
+    /* Read stack pointer and non-secure entry point */
     app_end_stack = (*((uint32_t *)(NS_WORLD_ENTRY_ADDRESS)));
     app_entry = (void *)(*((uint32_t *)(NS_WORLD_ENTRY_ADDRESS + 4)));
+
+    app_stack_limit = app_end_stack - MAX_NS_STACK_SIZE;
 
     for (i = 0; i < 1100000; i++)
         asm volatile("NOP");
@@ -159,12 +164,10 @@ void main(void)
     blue_led_secure(1);
 
 
-    /* Update stack pointer */
-    asm volatile("msr msplim, %0" ::"r"(0));
+    /* Update stack limit and initial pointer values */
+    asm volatile("msr msplim_ns, %0" ::"r"(app_stack_limit));
     asm volatile("msr msp_ns, %0" ::"r"(app_end_stack));
     /* Jump to non secure app_entry */
-    asm volatile("mov r12, %0" ::"r"(app_entry));
-    asm volatile("bic.w   r12, r12, #1");
+    asm volatile("mov r12, %0" ::"r"(app_entry - 1));
     asm volatile("blxns   r12" );
-
 }
