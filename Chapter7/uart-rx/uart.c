@@ -99,6 +99,10 @@ int uart3_setup(uint32_t bitrate, uint8_t data, char parity, uint8_t stop)
     else
         UART3_CR1 |= UART_CR1_SYMBOL_LEN;
 
+
+    /* Default: No parity */
+    UART3_CR1 &= ~(UART_CR1_PARITY_ENABLED | UART_CR1_PARITY_ODD);
+
     /* Configure parity */
     switch (parity) {
         case 'O':
@@ -107,8 +111,6 @@ int uart3_setup(uint32_t bitrate, uint8_t data, char parity, uint8_t stop)
         case 'E':
             UART3_CR1 |= UART_CR1_PARITY_ENABLED;
             break;
-        default:
-            UART3_CR1 &= ~(UART_CR1_PARITY_ENABLED | UART_CR1_PARITY_ODD);
     }
     /* Set stop bits */
     reg = UART3_CR2 & ~UART_CR2_STOPBITS;
