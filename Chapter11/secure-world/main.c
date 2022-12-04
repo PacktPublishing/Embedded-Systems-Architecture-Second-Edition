@@ -153,12 +153,14 @@ void main(void)
     app_end_stack = (*((uint32_t *)(NS_WORLD_ENTRY_ADDRESS)));
     app_entry = (void *)(*((uint32_t *)(NS_WORLD_ENTRY_ADDRESS + 4)));
 
+    /* Set a lower boundary for the stack, to enforce via msplim_ns */
     app_stack_limit = app_end_stack - MAX_NS_STACK_SIZE;
 
+    /* Cycle inside the bootloader before staging, to show the transition */
     for (i = 0; i < 1100000; i++)
         asm volatile("NOP");
-    red_led_off();
 
+    red_led_off();
     red_led_secure(1);
     green_led_secure(0);
     blue_led_secure(1);
@@ -168,6 +170,6 @@ void main(void)
     asm volatile("msr msplim_ns, %0" ::"r"(app_stack_limit));
     asm volatile("msr msp_ns, %0" ::"r"(app_end_stack));
     /* Jump to non secure app_entry */
-    asm volatile("mov r12, %0" ::"r"(app_entry - 1));
+    asm volatile("mov r12, %0" ::"r"((uint32_t)app_entry - 1));
     asm volatile("blxns   r12" );
 }
