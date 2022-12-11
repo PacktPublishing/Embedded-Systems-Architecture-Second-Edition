@@ -128,7 +128,6 @@ int uart3_setup(uint32_t bitrate, uint8_t data, char parity, uint8_t stop)
 void uart3_write(const char *text)
 {
     const char *p = text;
-    int i;
     volatile uint32_t reg;
     while(*p) {
         do {

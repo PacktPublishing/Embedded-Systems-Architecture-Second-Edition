@@ -186,7 +186,6 @@ void isr_uart3(void)
 void uart3_write(const char *text)
 {
     const char *p = text;
-    int i;
     volatile uint32_t reg;
     while(*p) {
         reg = UART3_SR;
