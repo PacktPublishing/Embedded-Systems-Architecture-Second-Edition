@@ -466,7 +466,6 @@ void main(void) {
             if (t->wakeup_time && (t->wakeup_time < jiffies)) {
                 t->wakeup_time = 0;
                 task_ready(t);
-                break;
             }
             t = t->next;
         }
