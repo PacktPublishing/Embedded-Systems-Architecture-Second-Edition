@@ -48,7 +48,7 @@ void *malloc(unsigned int size)
     }
     blk = (struct malloc_block *)&_start_heap;
     while ((unsigned int *)blk < end_heap) {
-        if ((blk->signature == SIGNATURE_FREED) && (blk->size <= size)) {
+        if ((blk->signature == SIGNATURE_FREED) && (blk->size >= size)) {
             blk->signature = SIGNATURE_IN_USE;
             ret = ((char *)blk) + sizeof(struct malloc_block);
             return ret;
