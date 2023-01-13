@@ -55,3 +55,8 @@ We also provide a PDF file that has color images of the screenshots/diagrams use
 ## Get to Know the Author
 **Daniele Lacamera**
 is a software technologist and researcher with vast experience in software design and development on embedded systems. He works as a senior software engineer at wolfSSL Inc., mostly focusing on security, secure boot, and integration with connected systems. He is an expert in TCP/IP and transport protocols design and optimization, with more than 20 academic publications on the topic. He supports free software, contributing to several projects, including the Linux kernel.
+
+### Download a free PDF
+
+ <i>If you have already purchased a print or Kindle version of this book, you can get a DRM-free PDF version at no cost.<br>Simply click on the link to claim your free PDF.</i>
+<p align="center"> <a href="https://packt.link/free-ebook/9781803239545">https://packt.link/free-ebook/9781803239545 </a> </p>
