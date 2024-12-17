@@ -50,7 +50,7 @@ sem_dopost:
    STREX   r2, r1, [r0]     
    CMP     r2, #0
    BNE     sem_dopost
-   CMP     r0, #1
+   CMP     r1, #1
    DMB
    BGE     sem_signal_up
    MOVS    r0, #0
